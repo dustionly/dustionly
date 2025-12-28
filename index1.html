@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player Web App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #1a1a1a; color: white; }
+        video { width: 90%; max-width: 600px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        h2 { margin-bottom: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <h2>Видеоро тамошо кунед</h2>
+    
+    <video id="player" controls>
+        <source id="videoSource" src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Бравзери шумо видеоро дастгирӣ намекунад.
+    </video>
+
+    <script>
+        // Инитсиализатсияи Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        const video = document.getElementById('player');
+        const source = document.getElementById('videoSource');
+
+        tg.expand(); // Кушодани тиреза ба пуррагӣ
+
+        // Вақте корбар тугмаи Play-ро пахш мекунад
+        video.onplay = function() {
+            const videoUrl = source.src;
+            
+            // Фиристодани маълумот ба бот
+            const data = {
+                action: "video_played",
+                url: videoUrl,
+                time: new Date().toLocaleTimeString()
+            };
+
+            tg.sendData(JSON.stringify(data)); 
+            
+            // Баъди фиристодани маълумот тирезаро мебандем (ихтиёрӣ)
+            // tg.close(); 
+        };
+    </script>
+</body>
+</html>
+
