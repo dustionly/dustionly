@@ -1,84 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="tg">
 <head>
-	<title></title>
-	<link rel="stylesheet" href="C:\Users\admin\Desktop\omuzish">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player Web App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #1a1a1a; color: white; }
+        video { width: 90%; max-width: 600px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        h2 { margin-bottom: 20px; text-align: center; }
+    </style>
 </head>
 <body>
-	<link rel="stylesheet" href="style.css" titype="" />
 
-<input type="checkbox" id="menu" />
-<label for="menu" class="menu">
-	<span></span>
-	<span></span>
-	<span></span>
-</label>
+    <h2>Видеоро тамошо кунед</h2>
+    
+    <video id="player" controls>
+        <source id="videoSource" src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Бравзери шумо видеоро дастгирӣ намекунад.
+    </video>
 
-<nav class="nav">
-	<ul>
-		<li><a href="#">Home</a></li>
-		<li><a href="#">About</a></li>
-		<li><a href="#">Works</a></li>
-		<li><a href="#">Contact</a></li>
-	</ul>
-</nav>
+    <script>
+        // Инитсиализатсияи Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        const video = document.getElementById('player');
+        const source = document.getElementById('videoSource');
 
+        tg.expand(); // Кушодани тиреза ба пуррагӣ
 
-<main>
-	<header>
-		<h1><i class="fa fa-picture-o" aria-hidden="true"></i></h1>
-	</header>
-	<section>
-		<div class="container">
-			<p>Busey ipsum dolor sit amet. You ever roasted doughnuts?I wrestled a bear once. A 750lbs black bear.The best way to communicate is compatible. Compatible communication is listening with open ears and an open mind, and not being fearful or judgemental about what you're hearing. It's OK to get Rib-grease on your face, because you're allowing people to see that you're proud of these ribs. Have you urinated? Have you drained your bladder? Are you free? Because if you haven't it will only come out later. I'm giving you some information that your bodily fluids may penetrate your clothing fibre's without warning. Did you feel that? Look at me - I'm not out of breath anymore!</p>
+        // Вақте корбар тугмаи Play-ро пахш мекунад
+        video.onplay = function() {
+            const videoUrl = source.src;
+            
+            // Фиристодани маълумот ба бот
+            const data = {
+                action: "video_played",
+                url: videoUrl,
+                time: new Date().toLocaleTimeString()
+            };
 
-			<p>When you get lost in your imaginatory vagueness, your foresight will become a nimble vagrant. It's OK to get Rib-grease on your face, because you're allowing people to see that you're proud of these ribs. Go with the feeling of the nature. Take it easy. Know why you're here. And remember to balance your internal energy with the environment.</p>
-
-			<p>It's OK to get Rib-grease on your face, because you're allowing people to see that you're proud of these ribs. You gotta go through it to see there ain't nothing to it. The magic Indian is a mysterious spiritual force, and we're going to Cathedral Rock, and that's the vortex of the heart. These kind of things only happen for the first time once. I would like to give you a backstage pass to my imagination. When you get lost in your imaginatory vagueness, your foresight will become a nimble vagrant. It's OK to get Rib-grease on your face, because you're allowing people to see that you're proud of these ribs.</p>
-		</div>
-	</section>
-	<div class="img">
-		<h1><i class="fa fa-picture-o" aria-hidden="true"></i></h1>
-	</div>
-	<section>
-		<div class="container">
-			<p>Have you urinated? Have you drained your bladder? Are you free? Because if you haven't it will only come out later. I'm giving you some information that your bodily fluids may penetrate your clothing fibre's without warning. Did you feel that? Look at me - I'm not out of breath anymore! When you get lost in your imaginatory vagueness, your foresight will become a nimble vagrant. It's OK to get Rib-grease on your face, because you're allowing people to see that you're proud of these ribs. Go with the feeling of the nature. Take it easy. Know why you're here. And remember to balance your internal energy with the environment.</p>
-			
-			<p>Busey ipsum dolor sit amet. You ever roasted doughnuts? I wrestled a bear once. A 750lbs black bear. The best way to communicate is compatible.</p>
-
-			<p>It's OK to get Rib-grease on your face, because you're allowing people to see that you're proud of these ribs. You gotta go through it to see there ain't nothing to it. The magic Indian is a mysterious spiritual force, and we're going to Cathedral Rock, and that's the vortex of the heart. Compatible communication is listening with open ears and an open mind, and not being fearful or judgemental about what you're hearing. It's OK to get Rib-grease on your face, because you're allowing people to see that you're proud of these ribs.</p>
-		</div>
-	</section>
-	<footer>
-		<div class="logo">
-			<i class="fa fa-picture-o" aria-hidden="true"></i>
-		</div>
-		<ul>
-			<li><a href="#">Home</a></li>
-			<li><a href="#">About</a></li>
-			<li><a href="#">Works</a></li>
-			<li><a href="#">Contact</a></li>
-		</ul>
-
-		<div class="secondary-links">
-			<ul>
-				<li><a href="#">Terms and Conditions</a></li>
-				<li><a href="#">Privacy Policy</a></li>
-			</ul>
-
-			<ul class="social">
-				<li><a href="#">
-					<i class="fa fa-github"></i>
-				</a></li>
-				<li><a href="#">
-					<i class="fa fa-twitter"></i>
-				</a></li>
-				<li><a href="#">
-					<i class="fa fa-codepen"></i>
-				</a></li>
-			</ul>
-		</div>
-	</footer>
-</main>
+            tg.sendData(JSON.stringify(data)); 
+            
+            // Баъди фиристодани маълумот тирезаро мебандем (ихтиёрӣ)
+            // tg.close(); 
+        };
+    </script>
 </body>
 </html>
